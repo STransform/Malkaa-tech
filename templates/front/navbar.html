@@ -1,404 +1,767 @@
-{% load i18n %} {% load static %}
-
-<!-- CSS -->
-{% block css %}
-{% endblock %}
-
-<!-- Navigation Bar -->
-<header id="header" style="max-height: 65px; height:65px;" class="header-effect-shrink"
-    data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyChangeLogo': true, 'stickyStartAt': 30, 'stickyHeaderContainerHeight': 85}">
-    <div id="top-header" class="header-body header-body-bottom-border border-top-0"
-        style="position:relative!important; top:0;">
-        <div class="header-top header-top-bottom-containered-border" style="background-color: #040720;">
-            <div class="container">
-                <div class="header-row">
-                    <div class="header-column justify-content-start">
-                        <div class="header-row">
-                            <span class="text-light">
-                                {% if stg.title %} {{stg.title}}
-                                {% else %}{% trans "OTech Engineering" %}{% endif %}
-                            </span>
-
-                        </div>
-                    </div>
-                    <div class="header-column justify-content-end ">
-
-                        <div class="header-row">
-                            <nav class="header-nav-top">
-                                <ul class="nav nav-pills mx-2">
-                                    {% if stg.phone1 %}
-                                    <li class="nav-item nav-item-anim-icon d-none d-lg-block">
-                                        <a class="nav-link ps-0" href="tel:{{stg.phone1}}"><i class="fa fa-phone"></i>
-                                            {{stg.phone1}}
-                                        </a>
-                                    </li>
-                                    {% else %}
-                                    <li class="nav-item nav-item-anim-icon d-none d-lg-block">
-                                        <a class="nav-link ps-0" href="tel:+09-03-001000"><i class="fa fa-phone"></i>
-                                            +09-03-001000</a>
-                                    </li>
-                                    {% endif %}
-
-                                    {% if stg.email %}
-                                    <li class="nav-item nav-item-anim-icon d-none d-lg-block">
-                                        <a class="nav-link" href="mailto:{{stg.email}}"><i
-                                                class="fa fa-envelope"></i>Email:{{stg.email}}</a>
-                                    </li>
-                                    {% else %}
-                                    <li class="nav-item nav-item-anim-icon d-none d-lg-block">
-                                        <a class="nav-link" href="mailto:OEST@otech.et"><i
-                                                class="fa fa-envelope"></i>Email: OEST@otech.et</a>
-                                    </li>
-                                    {% endif %}
-                                </ul>
-                                <ul
-                                    class="header-social-icons social-icons social-icons-clean social-icons-medium position-relative right-7 d-none d-md-block ms-0">
-                                    {% if stg.instagram %}
-                                    <li class="social-icons-instagram"><a href="{{stg.instagram}}" target="_blank"
-                                            title="Instagram"><i class="fab fa-instagram  "
-                                                style="color: white;"></i></a>
-                                    </li>
-                                    {% endif %}
-
-                                    {% if stg.twitter %}
-                                    <li class="social-icons-twitter"><a href="{{stg.twitter}}" target="_blank"
-                                            title="Twitter"><i class="fab fa-twitter"></i></a>
-                                    </li>
-                                    {% endif %}
-
-                                    {% if stg.facebook %}
-                                    <li class="social-icons-facebook"><a href="{{stg.facebook}}" target="_blank"
-                                            title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                    {% endif %}
-
-                                    {% if stg.youtube %}
-                                    <li class="social-icons-youtube"><a href="{{stg.youtube}}" target="_blank"
-                                            title="Youtube"><i class="fab fa-youtube"></i></a>
-                                    </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="header-container container">
-            <div class="header-row">
-                <div class="header-column">
-                    <div class="header-row">
-                        <div class="header-logo">
-                            {% if stg.logo %}
-                            <a href="{% url 'index' %}">
-                                <img src="{{stg.logo.url}}" class="img-fluid" alt="Logo"
-                                    style="width: 60px; height: 60px;" />
-                            </a>
-                            {% else %}
-                            <a href="{% url 'index' %}">
-                                <img src="/static/front/imgs/logo/logo-otech.png" class="img-fluid" alt="Logo"
-                                    style="width: 75px; height: 60px;" />
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="header-column justify-content-end">
-                    <div class="header-row">
-                        <div class="header-nav header-nav-links">
-                            <div
-                                class="header-nav-main header-nav-main-text-capitalize header-nav-main-effect-2 header-nav-main-sub-effect-1">
-                                <nav class="collapse">
-                                    <ul class="nav nav-pills" id="mainNav">
-                                        {% if pages %}
-
-                                        <li><a class="nav-link {% block home_dynamic %} {% endblock %} {% if index %} active {% endif %}"
-                                                href="{% url 'index' %}">
-                                                {% trans "Home" %}
-                                            </a></li>
-
-                                        {% if pages.about %}
-                                        <li class="dropdown ">
-                                            <!--for about page that is dynamic-->
-                                            <a class="dropdown-item dropdown-toggle {% block about_dynamic %} {% endblock %} {% if about_page %} active {% endif %}"
-                                                href="#">
-                                                {% trans "About" %}
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                {% if pages.about %}
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'about' %}">{% trans "About Us" %}</a></li>
-                                                {% endif %}
-                                                {% if pages.structure %}
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'company_values' %}">{% trans "Company Values" %}</a>
-                                                </li>
-                                                {% endif %}
-                                                {% if pages.about %}
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'our_partners' %}">{% trans "Our Partners" %}</a>
-                                                </li>
-                                                {% endif %}
-
-
-                                            </ul>
-                                        </li>
-
-                                        {% endif %}
-                                        <!--for services page that is dynamic-->
-                                        {% if pages.services %}
-                                        <li class="dropdown ">
-                                            <a class="dropdown-item dropdown-toggle {% block services_dynamic %} {% endblock %} {% if service_page %} active {% endif %}"
-                                                href="{% url 'services' %}">{% trans "Services" %}</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'technology' %}">{% trans "Tech Solutions & Services " %}</a>
-                                                </li>
-
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'infrastructure' %}">{% trans "Infrastructure and Deployment" %}</a>
-                                                </li>
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'innovation' %}">{% trans "Consulting and Innovation" %}</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-
-
-
-                                        {% if pages.vacancy or pages.events or pages.bid %}
-                                        <li class="dropdown ">
-                                            <!--for announcement page that is dynamic-->
-                                            <a class="dropdown-item dropdown-toggle {% block announcement_dynamic %} {% endblock %} {% if announcement_page %} active {% endif %}"
-                                                href="#">
-                                                {% trans "Announcements" %}</a>
-                                            <ul class="dropdown-menu">
-                                                {% if pages.bid %}
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'bid' %}">{% trans "Bids" %}</a></li>
-                                                {% endif %}
-                                                <!--
-                                                        {% if pages.events %}
-                                                        <li><a class="dropdown-item" href="{% url 'events_list' %}">{% trans "Events" %}</a></li>
-                                                        {% endif %}
-                                                        -->
-                                                {% if pages.vacancy %}
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'job_list' %}">{% trans "Vacancies" %}</a></li>
-                                                {% endif %}
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-
-                                        <!-- news -->
-                                        {% if pages.blogs %}
-                                        <li><a class="nav-link {% block blogs_dynamic %} {% endblock %} {% if blog_page %} active {% endif %}"
-                                                href="{% url 'blog_list' %}">{% trans "Blogs" %}</a></li>
-
-                                        {% endif %}
-
-
-                                        {% if pages.gallery %}
-                                        <li class="dropdown ">
-                                            <a class="dropdown-item dropdown-toggle {% block gallery_dynamic %} {% endblock %} {% if gallery_page %} active {% endif %}"
-                                                href="#">{% trans "Gallery" %}</a>
-                                            <ul class="dropdown-menu">
-                                                <!--For gallery page that is dynamic-->
-                                                <li><a class="dropdown-item {% block gallery_page_dynamic %} {% endblock %}"
-                                                        href="{% url 'gallery_images' %}">{% trans "Images" %}</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'gallery_videos' %}">{% trans "Videos" %}</a></li>
-                                            </ul>
-                                        </li>
-                                        {% endif %}
-
-                                        {% if pages.contact_us %}
-                                        <li><a class="nav-link {% block contact_us_dynamic %} {% endblock %} {% if contact_page %} active {% endif %}"
-                                                href="{% url 'contact_us' %}">
-                                                {% trans "Contact Us" %}
-                                            </a></li>
-                                        {% endif %}
-
-
-                                        {% else %}
-
-                                        <li><a class="nav-link {% block home %} {% endblock %} {% if index %} active {% endif %}"
-                                                href="{% url 'index' %}">{% trans "Home" %}</a></li>
-
-                                        <li>
-                                        <li class="dropdown ">
-                                            <!--for about page that is dynamic-->
-                                            <a class="dropdown-item dropdown-toggle {% block about %} {% endblock %} {% if about_page %} active {% endif %}"
-                                                href="#">
-                                                {% trans "About Us" %}
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{% url 'about' %}">{% trans "About Us" %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{% url 'company_values' %}">{% trans "Company Values" %}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{% url 'our_partners' %}">{% trans "Our Partners" %}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="dropdown ">
-                                            <a class="dropdown-item dropdown-toggle {% block services %} {% endblock %} {% if service_page %} active {% endif %}"
-                                                href="{% url 'services' %}">{% trans "Services" %}</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'technology' %}">{% trans "Tech Solutions & Services " %}</a>
-                                                </li>
-
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'infrastructure' %}">{% trans "Infrastructure and Deployment" %}</a>
-                                                </li>
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'innovation' %}">{% trans "Consulting and Innovation" %}</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-
-                                        <li class="dropdown ">
-                                            <a class="dropdown-item dropdown-toggle {% block announcement %} {% endblock %} {% if announcement_page %} active {% endif %}"
-                                                href="#">{% trans "Announcements" %}</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'bid' %}">{% trans "Bids" %}</a></li>
-                                                <!--  <li><a class="dropdown-item" href="{% url 'events_list' %}">{% trans "Events" %}</a></li> -->
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'job_list' %}">{% trans "Vacancies" %}</a></li>
-
-                                            </ul>
-                                        </li>
-                                        <li><a class="nav-link {% block Blogs %} {% endblock %} {% if blog_page %} active {% endif %}"
-                                                href="{% url 'blog_list' %}">{% trans "Blogs" %}</a>
-                                        </li>
-
-                                        <li class="dropdown ">
-                                            <a class="dropdown-item dropdown-toggle {% block gallery %} {% endblock %} {% if gallery_page %} active {% endif %}"
-                                                href="#">{% trans "Gallery" %}</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item {% block gallery_page %} {% endblock %}"
-                                                        href="{% url 'gallery_images' %}">{% trans "Images" %}</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="{% url 'gallery_images' %}">{% trans "Videos" %}</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="nav-link {% block contact_us %} {% endblock %} {% if contact_page %} active {% endif %}"
-                                                href="{% url 'contact_us' %}">{% trans "Contact Us" %}</a></li>
-                                        {% endif %}
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-
-                        <div class="header-nav-features " style="margin-left: 0;margin-right:2px;">
-                            <div class="header-nav-feature header-nav-features-search d-inline-flex ">
-                                <a href="#" class="header-nav-features-toggle text-decoration-none"
-                                    data-focus="headerSearch" aria-label="Search"><i
-                                        class="fas fa-search header-nav-top-icon"></i></a>
-                                <div class="header-nav-features-dropdown" id="headerTopSearchDropdown">
-                                    <form role="search" action="{% url 'search' %}" method="get">
-                                        <div class="simple-search input-group">
-                                            <input class="form-control text-1" id="headerSearch" name="searched_item"
-                                                type="search" value="" placeholder="Search...">
-                                            <button class="btn" type="submit" aria-label="Search">
-                                                <i class="fas fa-search header-nav-top-icon"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form id="id_lang_selector_form" class="mt-3" action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ redirect_to }}">
-                            <select name="language" onchange="change_lang(this)"
-                                class="ml-2 btn btn-sm btn-rounded btn-outline-light"
-                                style="margin-left:4px;color: black;">
-                                {% get_current_language as CURRENT_LANGUAGE %}
-                                {% get_available_languages as AVAILABLE_LANGUAGES %}
-                                {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
-                                {% for language in languages %}
-                                <option value="{{ language.code }}" {% if language.code == CURRENT_LANGUAGE %}
-                                    selected{% endif %} style="background-color: black;color: white;">
-                                    {{ language.name_local }}
-                                </option>
-                                {% endfor %}
-
-                            </select>
-
-                        </form>
-                        {% if user.is_authenticated and user.is_staff and user.is_active %}
-                        <a class="btn btn-sm btn-rounded ml-2 btn-primary mx-2 " href="{% url 'admin_dashboard' %}">
-                            <span style="color: white;" class="mr-2">Dashboard</span>
-                        </a>
-                        {% endif %}
-
-                        <button class="btn header-btn-collapse-nav" data-bs-toggle="collapse"
-                            data-bs-target=".header-nav-main nav">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-
-{% block js %}
-<script>
-    $('.child').each(function () {
-        $(this).addClass("dropdown");
-        $(this).find("ul").addClass("dropdown-menu")
-    });
-
-    // limit header to max-height of 65px
-    document.getElementById('header').style['max-height'] = "65px;";
-    // update style of top-header
-    document.getElementById('top-header').style['position'] = "relative!important";
-
-    // Function to change language 
-    function change_lang(s) {
-        document.querySelector("#id_lang_selector_form").submit()
+{% load i18n %}
+{% load static %}<!-- CSS for Modern Navbar: Glassmorphism, Gradient Flows, Professional Interactions -->
+{% block css %}<style>
+    :root {
+        --primary-dark: #0a192f;
+        --primary-mid: #1e3a8a;
+        --primary-blue: #0077BE;
+        --accent-blue: #00A8E8;
+        --white: #ffffff;
+        --light-gray: #e2e8f0;
+        --mid-gray: #cbd5e1;
+        --dark-gray: #94a3b8;
+        --red-accent: #E31937;
+        --border-subtle: rgba(0, 119, 190, 0.15);
+        --bg-subtle: rgba(255, 255, 255, 0.05);
     }
 
-    // Show dropdowns on hover effect 
-    $('.hover-active').hover(function () {
-        $('.hover-active').each(function () {
-            $(this).removeClass("active");
-            $($(this).attr("href")).removeClass("active");
-        });
+    /* Base Header: Glassy initial, gradient on scroll */
+    #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        background: rgba(10, 25, 47, 0.9);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-subtle);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 80px;
+    }
+    #header.scrolled {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 50%, var(--primary-blue) 100%);
+        box-shadow: 0 8px 32px rgba(0, 119, 190, 0.2);
+        height: 70px;
+    }
 
-        $(this).addClass("active");
-        $($(this).attr("href")).addClass("active");
+    /* Shimmer overlay for dynamic feel */
+    #header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(0, 119, 190, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(0, 168, 232, 0.1) 0%, transparent 50%);
+        opacity: 0.5;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    #header.scrolled::before {
+        opacity: 1;
+        animation: shimmer 8s ease-in-out infinite alternate;
+    }
+    @keyframes shimmer {
+        0% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    /* Logo: Elegant scale, gradient text fallback */
+    .header-logo {
+        transition: transform 0.3s ease;
+    }
+    .header-logo a {
+        display: inline-block;
+    }
+    .header-logo svg {
+        height: 50px;
+        width: auto;
+        transition: height 0.3s ease;
+    }
+    #header.scrolled .header-logo svg {
+        height: 42px;
+    }
+    .header-logo:hover {
+        transform: scale(1.02);
+    }
+
+    /* Main Nav: Fluid centered, modern typography */
+    .header-nav-main {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: opacity 0.3s ease;
+    }
+    .header-nav-main ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 2.5rem;
+        align-items: center;
+    }
+    .nav-link {
+        color: var(--light-gray);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-weight: 400;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        padding: 0.75rem 0;
+        position: relative;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--white);
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent-blue), var(--white));
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+        border-radius: 1px;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: 100%;
+    }
+
+    /* Dropdowns: Glassy, centered, smooth reveal */
+    .dropdown {
+        position: relative;
+    }
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-subtle);
+        border-radius: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: none;
+        z-index: 1029;
+        padding: 1.5rem 0;
+        min-width: 280px;
+    }
+    .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+        display: block;
+    }
+    .dropdown-item {
+        color: var(--primary-blue);
+        font-weight: 400;
+        padding: 0.75rem 1.75rem;
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .dropdown-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--accent-blue);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    .dropdown-item:hover {
+        background: var(--bg-subtle);
+        color: var(--red-accent);
+        padding-left: 2rem;
+    }
+    .dropdown-item:hover::before {
+        transform: translateX(0);
+    }
+
+    /* Mega Menu: Full-width, columnar, immersive */
+    .mega-menu.dropdown-menu {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        width: 90vw;
+        max-width: 1200px;
+        padding: 2.5rem 3rem;
+        border-radius: 16px;
+        margin-top: 10px;
+    }
+    .mega-menu:hover {
+        transform: translateX(-50%) translateY(0);
+    }
+    .mega-menu .mega-row {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+    }
+    .mega-menu .mega-column {
+        flex: 1;
+        min-width: 250px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0 1rem;
+    }
+    .mega-link-group h6 {
+        color: var(--primary-blue);
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .mega-link {
+        color: var(--mid-gray);
+        font-weight: 400;
+        font-size: 0.95rem;
+        padding: 0.75rem 0;
+        text-decoration: none;
+        position: relative;
+        transition: all 0.3s ease;
+        border-radius: 6px;
+        padding-left: 1rem;
+        line-height: 1.4;
+    }
+    .mega-link::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        font-weight: bold;
+        color: var(--accent-blue);
+    }
+    .mega-link:hover {
+        color: var(--white);
+        background: rgba(0, 119, 190, 0.1);
+        transform: translateX(8px);
+    }
+    .mega-link:hover::before {
+        opacity: 1;
+    }
+
+    /* Simple Dropdown: Compact variant */
+    .simple-dropdown.dropdown-menu {
+        width: auto;
+        max-width: 320px;
+        padding: 1.25rem 0;
+    }
+    .simple-dropdown .mega-column {
+        min-width: auto;
+        padding: 0;
+    }
+    .simple-dropdown .mega-link {
+        padding: 0.75rem 1.5rem;
+        border-bottom: none;
+    }
+
+    /* Utilities: Subtle icons, glassy dropdowns */
+    .header-utilities {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .search-toggle,
+    .lang-toggle {
+        color: var(--light-gray);
+        font-size: 1.1rem;
+        padding: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+    }
+    .search-toggle::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s;
+    }
+    .search-toggle:hover::before {
+        left: 100%;
+    }
+    .search-toggle:hover,
+    .lang-toggle:hover {
+        color: var(--accent-blue);
+        background: var(--bg-subtle);
+        transform: scale(1.1);
+    }
+
+    /* Search Dropdown: Modern input, positioned right */
+    .search-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        width: 320px;
+        padding: 1.25rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-subtle);
+        border-radius: 12px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1029;
+    }
+    .search-toggle:hover + .search-dropdown,
+    .search-dropdown:hover {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .search-input {
+        width: 100%;
+        border: 1px solid var(--border-subtle);
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        background: var(--white);
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
+    .search-input:focus {
+        border-color: var(--primary-blue);
+    }
+    .search-btn {
+        background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+        border: none;
+        color: var(--white);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+    .search-btn:hover {
+        transform: scale(1.05);
+    }
+
+    /* Language Selector: Sleek dropdown */
+    .lang-selector {
+        position: relative;
+    }
+    .lang-selector select {
+        background: var(--bg-subtle);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        color: var(--light-gray);
+        font-weight: 400;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+    .lang-selector select:focus {
+        border-color: var(--primary-blue);
+        color: var(--white);
+    }
+    .lang-selector select option {
+        background: var(--primary-dark);
+        color: var(--white);
+    }
+
+    /* Admin Button: Gradient pill, elevated */
+    .admin-btn {
+        background: linear-gradient(135deg, var(--red-accent), #cc0000);
+        color: var(--white);
+        border: none;
+        padding: 0.6rem 1.75rem;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.85rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        position: relative;
+        overflow: hidden;
+    }
+    .admin-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+    .admin-btn:hover::before {
+        left: 100%;
+    }
+    .admin-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(227, 19, 55, 0.3);
+    }
+
+    /* Mobile: Overlay panel, smooth slide */
+    .mobile-toggle {
+        display: none;
+        color: var(--light-gray);
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+    .mobile-toggle:hover {
+        color: var(--accent-blue);
+        background: var(--bg-subtle);
+    }
+    @media (max-width: 991px) {
+        .mobile-toggle {
+            display: block;
+        }
+        .header-nav-main {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            backdrop-filter: blur(20px);
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+        .header-nav-main.show {
+            transform: translateX(0);
+        }
+        .header-nav-main ul {
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem;
+            align-items: center;
+        }
+        .nav-link {
+            font-size: 1.1rem;
+            padding: 1rem;
+        }
+        .dropdown-menu {
+            position: static;
+            transform: none;
+            opacity: 1;
+            visibility: visible;
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            box-shadow: none;
+            width: auto;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+        .mega-menu.dropdown-menu,
+        .simple-dropdown.dropdown-menu {
+            position: static;
+            width: auto;
+            padding: 2rem;
+        }
+        .dropdown.active .dropdown-menu {
+            display: block;
+        }
+        .header-utilities {
+            gap: 1rem;
+        }
+        #header.scrolled {
+            height: 70px;
+        }
+        #header.scrolled .header-nav-main {
+            top: 70px;
+            height: calc(100vh - 70px);
+        }
+    }
+
+    /* Body padding adjustment */
+    body {
+        padding-top: 80px;
+    }
+    #header.scrolled ~ body {
+        padding-top: 70px;
+    }
+
+    @media (max-width: 576px) {
+        .header-utilities {
+            gap: 1rem;
+        }
+        .header-nav-main ul {
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}<!-- Redesigned Modern Navigation Bar with Glassy Effects and Gradient Flows -->
+<header id="header">
+    <div class="container-fluid px-4 d-flex align-items-center justify-content-between h-100">
+        <!-- Logo (Left) - Enhanced M Shape Design -->
+        <div class="header-logo">
+            <a href="{% url 'index' %}">
+                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="logo-m">
+                    <defs>
+                        <linearGradient id="mGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#0077BE;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#00A8E8;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="mGlow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
+                            <feMerge>
+                                <feMergeNode in="glow" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- Enhanced Filled M Shape - Symmetrical with sharp peaks and clean base -->
+                    <path d="M10 100 L30 20 L60 70 L90 20 L110 100 L10 100 Z" 
+                          fill="url(#mGradient)" 
+                          filter="url(#mGlow)" 
+                          stroke="none" 
+                          stroke-width="0" />
+                    <!-- Inner accent lines for depth and modern look - Emphasizing the M structure -->
+                    <path d="M30 20 L60 70 M60 70 L90 20" 
+                          stroke="url(#mGradient)" 
+                          stroke-width="2" 
+                          stroke-linecap="round" 
+                          opacity="0.85" 
+                          filter="url(#mGlow)" />
+                </svg>
+            </a>
+        </div>
+
+    <!-- Main Navigation (Centered) -->
+    <nav class="header-nav-main">
+        <ul>
+            {% if pages %}
+            <li><a class="nav-link {% block home_dynamic %}{% endblock %} {% if index %}active{% endif %}" href="{% url 'index' %}">{% trans "Home" %}</a></li>
+
+            {% if pages.about %}
+            <li class="dropdown">
+                <a class="nav-link {% block about_dynamic %}{% endblock %} {% if about_page %}active{% endif %}" href="#">{% trans "About" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        {% if pages.about %}<a class="dropdown-item" href="{% url 'about' %}">{% trans "About Us" %}</a>{% endif %}
+                        {% if pages.structure %}<a class="dropdown-item" href="{% url 'company_values' %}">{% trans "Company Values" %}</a>{% endif %}
+                        {% if pages.about %}<a class="dropdown-item" href="{% url 'our_partners' %}">{% trans "Our Partners" %}</a>{% endif %}
+                    </div>
+                </ul>
+            </li>
+            {% endif %}
+
+            {% if pages.services %}
+            <li class="dropdown">
+                <a class="nav-link {% block services_dynamic %}{% endblock %} {% if service_page %}active{% endif %}" href="{% url 'services' %}">{% trans "Services" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        <a class="dropdown-item" href="{% url 'technology' %}">{% trans "Core Software Development Services" %}</a>
+                        <a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise and Business Solutions" %}</a>
+                        <a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>
+                    </div>
+                </ul>
+            </li>
+            {% endif %}
+
+            {% if pages.blogs %}
+            <li><a class="nav-link {% block blogs_dynamic %}{% endblock %} {% if blog_page %}active{% endif %}" href="{% url 'blog_list' %}">{% trans "Blogs" %}</a></li>
+            {% endif %}
+
+            {% if pages.gallery %}
+            <li class="dropdown">
+                <a class="nav-link {% block gallery_dynamic %}{% endblock %} {% if gallery_page %}active{% endif %}" href="#">{% trans "Gallery" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        <a class="dropdown-item {% block gallery_page_dynamic %}{% endblock %}" href="{% url 'gallery_images' %}">{% trans "Images" %}</a>
+                        <a class="dropdown-item" href="{% url 'gallery_videos' %}">{% trans "Videos" %}</a>
+                    </div>
+                </ul>
+            </li>
+            {% endif %}
+
+            {% if pages.contact_us %}
+            <li><a class="nav-link {% block contact_us_dynamic %}{% endblock %} {% if contact_page %}active{% endif %}" href="{% url 'contact_us' %}">{% trans "Contact Us" %}</a></li>
+            {% endif %}
+
+            {% else %}
+            <!-- Fallback Static Nav -->
+            <li><a class="nav-link {% block home %}{% endblock %} {% if index %}active{% endif %}" href="{% url 'index' %}">{% trans "Home" %}</a></li>
+            <li class="dropdown">
+                <a class="nav-link {% block about %}{% endblock %} {% if about_page %}active{% endif %}" href="#">{% trans "About Us" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        <a class="dropdown-item" href="{% url 'about' %}">{% trans "About Us" %}</a>
+                        <a class="dropdown-item" href="{% url 'company_values' %}">{% trans "Company Values" %}</a>
+                        <a class="dropdown-item" href="{% url 'our_partners' %}">{% trans "Our Partners" %}</a>
+                    </div>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="nav-link {% block services %}{% endblock %} {% if service_page %}active{% endif %}" href="{% url 'services' %}">{% trans "Services" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        <a class="dropdown-item" href="{% url 'technology' %}">{% trans "Core Software Development Services" %}</a>
+                        <a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise and Business Solutions" %}</a>
+                        <a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>
+                    </div>
+                </ul>
+            </li>
+            <li><a class="nav-link {% block Blogs %}{% endblock %} {% if blog_page %}active{% endif %}" href="{% url 'blog_list' %}">{% trans "Blogs" %}</a></li>
+            <li class="dropdown">
+                <a class="nav-link {% block gallery %}{% endblock %} {% if gallery_page %}active{% endif %}" href="#">{% trans "Gallery" %}</a>
+                <ul class="dropdown-menu simple-dropdown">
+                    <div class="mega-column">
+                        <a class="dropdown-item {% block gallery_page %}{% endblock %}" href="{% url 'gallery_images' %}">{% trans "Images" %}</a>
+                        <a class="dropdown-item" href="{% url 'gallery_videos' %}">{% trans "Videos" %}</a>
+                    </div>
+                </ul>
+            </li>
+            <li><a class="nav-link {% block contact_us %}{% endblock %} {% if contact_page %}active{% endif %}" href="{% url 'contact_us' %}">{% trans "Contact Us" %}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Utilities (Right) -->
+    <div class="header-utilities">
+        <!-- Search -->
+        <div class="search-wrapper position-relative">
+            <i class="fas fa-search search-toggle" onclick="toggleSearch()"></i>
+            <div class="search-dropdown">
+                <form role="search" action="{% url 'search' %}" method="get">
+                    <div class="d-flex">
+                        <input class="search-input" name="searched_item" type="search" placeholder="{% trans 'Search...' %}" autocomplete="off">
+                        <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Language -->
+        <form id="id_lang_selector_form" class="lang-selector" action="{% url 'set_language' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language" onchange="change_lang(this)" class="lang-toggle">
+                {% get_current_language as CURRENT_LANGUAGE %}
+                {% get_available_languages as AVAILABLE_LANGUAGES %}
+                {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                {% for language in languages %}
+                <option value="{{ language.code }}" {% if language.code == CURRENT_LANGUAGE %}selected{% endif %}>
+                    {{ language.name_local|slice:":2" }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        {% if user.is_authenticated and user.is_staff and user.is_active %}
+        <a class="admin-btn" href="{% url 'admin_dashboard' %}">Dashboard</a>
+        {% endif %}
+
+        <!-- Mobile Toggle -->
+        <button class="mobile-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</div></header>
+
+{% block js %}<script>
+// Enhanced Scroll Effect with Shimmer
+let lastScrollTop = 0;
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const header = document.getElementById('header');
+    if (scrollTop > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+    lastScrollTop = scrollTop;
+});
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+    const nav = document.querySelector('.header-nav-main');
+    nav.classList.toggle('show');
+    // Close all dropdowns on toggle
+    document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+}
+
+// Search Toggle
+function toggleSearch() {
+    const dropdown = document.querySelector('.search-dropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// Language Change
+function change_lang(s) {
+    document.querySelector("#id_lang_selector_form").submit();
+}
+
+// DOM Ready Enhancements
+document.addEventListener('DOMContentLoaded', function () {
+    var heroCarousel = document.getElementById('heroCarousel');
+    if (heroCarousel) {
+        new bootstrap.Carousel(heroCarousel, {
+            interval: 7000,
+            wrap: true,
+            keyboard: true
+        });
+    }
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                toggleMobileMenu();
+                document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+            }
+        });
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var heroCarousel = document.getElementById('heroCarousel');
-        if (heroCarousel) {
-            new bootstrap.Carousel(heroCarousel, {
-                interval: 7000,
-                wrap: true,
-                keyboard: true
+    // Mobile dropdown toggle on click
+    if (window.innerWidth < 992) {
+        document.querySelectorAll('.dropdown > .nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                link.closest('.dropdown').classList.toggle('active');
             });
+        });
+    }
+
+    // Close dropdowns and search on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown') && !e.target.closest('.header-utilities')) {
+            document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.search-dropdown').forEach(d => d.style.display = 'none');
         }
     });
-</script>
 
+    // Resize handler for mobile nav
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 992) {
+            document.querySelector('.header-nav-main')?.classList.remove('show');
+            document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+        }
+    });
+});
+</script>
 {% endblock %}
+

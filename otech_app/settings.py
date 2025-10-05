@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-vl1osx-&@rl##2ogt%^kv$dri#h)tppm8)&5qg1f+i233$g$2$
 DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://otech.et', 
+    'https://localhost.com', 
     'https://www.otech.et',  
 ]
 
@@ -171,9 +171,9 @@ WSGI_APPLICATION = 'otech_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smndb',
+        'NAME': 'db1',
         'USER': 'root',
-        'PASSWORD': 'Simon@1234',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }

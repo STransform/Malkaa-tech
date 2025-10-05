@@ -1,35 +1,60 @@
-{% load i18n %} {% load static %} {% block css %}
-<style>
+{% load i18n %}
+{% load static %}
+{% block css %}<style>
+  :root {
+    --primary-blue: #0077BE;
+    --medium-gray: #6c757d;
+    --accent-color: #0077BE;
+    --primary-white: #ffffff;
+  }
+
   .blogs-section {
-    padding: 100px 0;
-    background-color: var(--primary-white);
+    padding: 120px 0;
+    background: linear-gradient(135deg, var(--primary-white) 0%, #f8f9fa 100%);
   }
 
   .blog-card {
     background: var(--primary-white);
-    border: none;
-    border-radius: 16px;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
     padding: 0;
     text-align: left;
-    transition: all 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     position: relative;
   }
 
+  .blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 0%, rgba(0, 119, 190, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+  }
+
   .blog-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: var(--accent-color);
+  }
+
+  .blog-card:hover::before {
+    opacity: 1;
   }
 
   .blog-image-wrapper {
     position: relative;
-    padding-bottom: 60%;
-    /* 5:3 Aspect Ratio */
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio for a more cinematic feel */
     height: 0;
     overflow: hidden;
-    border-radius: 16px 16px 0 0;
+    border-radius: 20px 20px 0 0;
   }
 
   .blog-image-wrapper img {
@@ -39,39 +64,44 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .blog-card:hover .blog-image-wrapper img {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   .blog-content {
-    padding: 30px 25px;
+    padding: 35px 30px 30px;
     position: relative;
+    z-index: 2;
   }
 
   .blog-meta {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 20px;
   }
 
   .blog-meta small {
     color: var(--accent-color);
-    font-weight: 600;
-    font-size: 0.85rem;
+    font-weight: 500;
+    font-size: 0.875rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    background: rgba(0, 119, 190, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
   }
 
   .blog-title {
     font-family: "Playfair Display", serif;
-    font-weight: 600;
-    color: var(--primary-black);
-    margin-bottom: 15px;
-    line-height: 1.4;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 18px;
+    line-height: 1.3;
     transition: color 0.3s ease;
   }
 
@@ -81,49 +111,141 @@
 
   .blog-excerpt {
     color: var(--medium-gray);
-    line-height: 1.6;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
+  }
+
+  .read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .read-more-btn:hover {
+    background: var(--accent-color);
+    color: var(--primary-white);
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 119, 190, 0.3);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .section-title {
+    font-family: "Playfair Display", serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-blue);
     margin-bottom: 20px;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), #0077BE);
+    border-radius: 2px;
+  }
+
+  .section-subtitle {
+    font-size: 1.25rem;
+    color: var(--medium-gray);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .view-all-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 40px;
+    background: var(--accent-color);
+    color: var(--primary-white);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 119, 190, 0.3);
+  }
+
+  .view-all-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 119, 190, 0.4);
+    color: var(--primary-white);
+  }
+
+  @media (max-width: 768px) {
+    .blogs-section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+    }
+
+    .blog-title {
+      font-size: 1.25rem;
+    }
+
+    .blog-content {
+      padding: 25px 20px 25px;
+    }
   }
 </style>
-{% endblock %} {% if recent_blogs %}
-<section class="blogs-section">
+{% endblock %}{% if recent_blogs %}<section class="blogs-section">
   <div class="container">
-    <div class="row align-items-end mb-5">
-      <div class="col-lg-8">
-        <h2 class="section-title display-4 text-corporate-red">
-          {% trans "Recent Blogs" %}
-        </h2>
-        <p class="lead text-muted">
-          {% trans "Stay updated with our latest blogs" %}
-        </p>
-      </div>
-      <div class="col-lg-4 text-lg-end">
-        <a href="{% url 'blog_list' %}" class="btn btn-corporate-red">
-          {% trans "SEE ALL BLOGS" %}
-        </a>
-      </div>
+    <div class="section-header">
+      <h2 class="section-title">
+        {% trans "Recent Blogs" %}
+      </h2>
+      <p class="section-subtitle">
+        {% trans "Stay updated with our latest insights and stories" %}
+      </p>
+      <a href="{% url 'blog_list' %}" class="view-all-btn">
+        {% trans "View All Blogs" %} <i class="fas fa-arrow-right ms-2"></i>
+      </a>
     </div>
-    <div class="row g-4">
+    <div class="row g-5">
       {% for blog in recent_blogs %}
-      <div class="col-lg-3 col-md-6">
-        <div class="blog-card h-100">
+      <div class="col-lg-4 col-md-6">
+        <article class="blog-card h-100">
           <div class="blog-image-wrapper">
-            <img src="{{ blog.images.url }}" alt="{{ blog.title }}" class="img-fluid blog-image" />
+            <img src="{{ blog.images.url }}" alt="{{ blog.title }}" class="img-fluid blog-image" loading="lazy" />
           </div>
           <div class="blog-content">
-            <div class="blog-meta mb-2">
+            <div class="blog-meta">
               <small>{{ blog.created_date|date:"M d, Y" }}</small>
             </div>
-            <h5 class="blog-title mb-3">{{ blog.title }}</h5>
-            <p class="blog-excerpt text-justify">{{ blog.content|truncatechars:120 }}</p>
-            <a href="{% url 'blog_detail' blog_id=blog.id %}" class="btn-outline-corporate-red">
+            <h3 class="blog-title">{{ blog.title }}</h3>
+            <p class="blog-excerpt">{{ blog.content|truncatechars:140 }}</p>
+            <a href="{% url 'blog_detail' blog_id=blog.id %}" class="read-more-btn">
               {% trans "Read More" %} <i class="fas fa-arrow-right"></i>
             </a>
           </div>
-        </div>
+        </article>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
+

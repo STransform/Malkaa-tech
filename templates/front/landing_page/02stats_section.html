@@ -1,119 +1,299 @@
-{% load i18n %} {% load static %} {% block css %}
+{% load i18n %} {% load static %}
+{% block css %}
 <style>
-  .stats-section {
-    background-color: var(--light-gray);
-    padding: 80px 0;
+  .about-section {
+    padding: 120px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); /* Subtle gradient for depth */
+    position: relative;
+    overflow: hidden;
   }
 
-  .stat-item {
+  .about-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 119, 190, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(1, 92, 146, 0.03) 0%, transparent 50%);
+    z-index: 1;
+  }
+
+  .about-container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .about-hero {
     text-align: center;
-    padding: 30px 20px;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+    padding: 0 1rem;
+    animation: fadeInUp 1.2s ease-out;
   }
 
-  .stat-number {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .about-title {
     font-family: "Playfair Display", serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--accent-color);
-    display: block;
-    margin-bottom: 10px;
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    font-weight: 600;
+    color: #0077BE;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    position: relative;
   }
 
-  .stat-label {
-    font-size: 1rem;
-    color: var(--medium-gray);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 500;
+  .about-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #0077BE, transparent);
+  }
+
+  .about-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    color: #0077BE;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .about-description {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1.2s ease-out 0.3s both;
+  }
+
+  .about-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+    animation: fadeInUp 1.2s ease-out 0.6s both;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    border-left: 4px solid #0077BE;
+    box-shadow: 0 4px 15px rgba(0, 119, 190, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+  }
+
+  .feature-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 119, 190, 0.15);
+    border-left-color: #015C92;
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #0077BE, #015C92);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    color: #ffffff;
+    font-size: 1.25rem;
+  }
+
+  .feature-content {
+    flex: 1;
+  }
+
+  .feature-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0077BE;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .feature-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .about-cta {
+    text-align: center;
+    animation: fadeInUp 1.2s ease-out 0.9s both;
+  }
+
+  .about-btn {
+    background: linear-gradient(135deg, #0077BE, #015C92);
+    color: #ffffff;
+    border: none;
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 20px rgba(0, 119, 190, 0.3);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .about-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 119, 190, 0.4);
+    color: #ffffff;
+  }
+
+  .about-btn:hover::before {
+    left: 100%;
+  }
+
+  .about-btn i {
+    margin-left: 0.75rem;
+    transition: transform 0.3s ease;
+  }
+
+  .about-btn:hover i {
+    transform: translateX(5px);
   }
 
   @media (max-width: 768px) {
-    .stat-number {
-      font-size: 2.5rem;
+    .about-section {
+      padding: 80px 0;
+    }
+
+    .about-title {
+      font-size: 2rem;
+    }
+
+    .about-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .about-features {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      padding: 1.25rem;
+    }
+
+    .about-btn {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
     }
   }
 </style>
-
 {% endblock %}
 
-<section class="stats-section">
+<section class="about-section">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-        <div class="stat-item">
-          <!-- Added data attributes for animation -->
-          <span class="stat-number" data-target="8" data-suffix="+">0+</span>
-          <span class="stat-label">{% trans "Projects Completed" %}</span>
+    <div class="about-hero">
+      <h2 class="about-title">{% trans "About Malkaa tech" %}</h2>
+      <p class="about-subtitle">
+        {% trans "Pioneering Innovation in Technology Solutions" %}
+      </p>
+    </div>
+    <div class="about-description">
+      {% blocktrans trimmed %}
+        At Malkaa tech, we are more than just a technology company—we are your strategic partner in digital transformation. 
+        With over a decade of expertise, we deliver cutting-edge solutions that empower businesses and governments to thrive in 
+        an ever-evolving landscape. Our team of seasoned professionals combines technical prowess with creative vision to craft 
+        bespoke software, robust infrastructure, and innovative consulting services tailored to your unique challenges.
+      {% endblocktrans %}
+    </div>
+    <div class="about-features">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="feature-content">
+          <h4 class="feature-title">{% trans "Custom Software Development" %}</h4>
+          <p class="feature-description">
+            {% trans "Tailored applications that scale with your business needs and drive operational efficiency." %}
+          </p>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-        <div class="stat-item">
-          <!-- Added data attributes for animation -->
-          <span class="stat-number" data-target="10" data-suffix="+">0+</span>
-          <span class="stat-label">{% trans "Happy Clients" %}</span>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-server"></i>
+        </div>
+        <div class="feature-content">
+          <h4 class="feature-title">{% trans "Infrastructure Solutions" %}</h4>
+          <p class="feature-description">
+            {% trans "Secure, scalable cloud and on-premise infrastructure designed for reliability and performance." %}
+          </p>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-        <div class="stat-item">
-          <!-- Added data attributes for animation -->
-          <span class="stat-number" data-target="2" data-suffix="+">0+</span>
-          <span class="stat-label">{% trans "Years Experience" %}</span>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="feature-content">
+          <h4 class="feature-title">{% trans "Strategic Consulting" %}</h4>
+          <p class="feature-description">
+            {% trans "Expert guidance to navigate digital transformation and unlock new growth opportunities." %}
+          </p>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="stat-item">
-          <!-- Special handling for 24/7 format -->
-          <span class="stat-number" data-target="24" data-suffix="/7">0/7</span>
-          <span class="stat-label">{% trans "Support Available" %}</span>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div class="feature-content">
+          <h4 class="feature-title">{% trans "24/7 Support Excellence" %}</h4>
+          <p class="feature-description">
+            {% trans "Round-the-clock technical support ensuring your systems run smoothly at all times." %}
+          </p>
         </div>
       </div>
     </div>
+    <div class="about-cta">
+      <a href="{% url 'about' %}" class="about-btn">
+        {% trans "Discover Our Story" %} <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
   </div>
 </section>
-
-<!-- Added JavaScript for count-up animation -->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const statNumbers = document.querySelectorAll('.stat-number');
-
-    function animateCounter(element) {
-      const target = parseInt(element.getAttribute('data-target'));
-      const suffix = element.getAttribute('data-suffix') || '';
-      const duration = 2000; // 2 seconds
-      const increment = target / (duration / 16); // 60fps
-      let current = 0;
-
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-          current = target;
-          clearInterval(timer);
-        }
-        element.textContent = Math.floor(current) + suffix;
-      }, 16);
-    }
-
-    // Create intersection observer to trigger animation when section is visible
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const statNumbers = entry.target.querySelectorAll('.stat-number');
-          statNumbers.forEach(stat => {
-            if (!stat.classList.contains('animated')) {
-              stat.classList.add('animated');
-              animateCounter(stat);
-            }
-          });
-        }
-      });
-    }, {
-      threshold: 0.5
-    });
-
-    // Observe the stats section
-    const statsSection = document.querySelector('.stats-section');
-    if (statsSection) {
-      observer.observe(statsSection);
-    }
-  });
-</script>

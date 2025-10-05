@@ -40,7 +40,7 @@ class TechnologyPage(View): # Render technology page
             })
             
         return render(request, "front/services.html", {'services':services, 
-        'service_page': True, 'page_title': 'Tech Solutions & Services', 
+        'service_page': True, 'page_title': 'Core software development services', 
                                                        'page_subtitle': 'Empowering businesses with tailored digital strategies and tools.'})
 
 class InfrastructurePage(View): # Render infrastructure page 
@@ -56,7 +56,7 @@ class InfrastructurePage(View): # Render infrastructure page
             })
             
         return render(request, "front/services.html", {'services':services,
-        'service_page': True, 'page_title': 'Infrastructure & Deployment', 'page_subtitle': 'Building scalable, secure, and efficient technology foundations.'})
+        'service_page': True, 'page_title': 'Enterprise & Business solutions', 'page_subtitle': 'Building scalable, secure, and efficient technology foundations.'})
 
 class InnovationPage(View): # Render innovation page 
     def get(self, request, **kwargs):
@@ -71,7 +71,7 @@ class InnovationPage(View): # Render innovation page
             })
             
         return render(request, "front/services.html", {'services':services,
-        'service_page': True, 'page_title': 'Consulting & Innovation', 'page_subtitle': 'Transforming ideas into impactful, future-ready solutions.'})
+        'service_page': True, 'page_title': 'Web & Digital services', 'page_subtitle': 'Transforming ideas into impactful, future-ready solutions.'})
     
 class CompanyValuesPage(View): # Render values page 
     def get(self, request, **kwargs):
