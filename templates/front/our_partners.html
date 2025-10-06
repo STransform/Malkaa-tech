@@ -61,15 +61,30 @@
         transform: translate(50%, -50%);
     }
 
-
     .partners-title {
         font-size: 3.5rem;
         font-weight: 700;
-        color: var(--primary-black);
-        text-align: center;
-        margin-bottom: 1rem;
-        position: relative;
+        color: #0077BE; /* Primary blue */
+        text-align: center; /* Centers text horizontally */
+        margin: 0 auto 1rem; /* Auto margins for perfect centering + bottom space */
+        position: relative; /* For absolute positioning of underline */
+        display: block; /* Block for full centering (no left-shift) */
+        width: 100%; /* Full width to span container */
         z-index: 2;
+    }
+
+    /* Underline matching Core Values and footer – now independently centered */
+    .partners-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px; /* Positions below title */
+        left: 50%; /* Centers underline independently */
+        transform: translateX(-50%); /* No left-shift */
+        width: 80px; /* Fixed width for consistency (like original accent line) – adjust if needed */
+        height: 3px; /* Matches footer/Core Values height */
+        background: linear-gradient(90deg, transparent, #0077BE, transparent); /* Blue gradient match */
+        border-radius: 2px; /* Rounded like others */
+        box-shadow: 0 2px 4px rgba(0, 119, 190, 0.2); /* Subtle shadow for depth */
     }
 
     .partners-subtitle {
@@ -83,26 +98,14 @@
         z-index: 2;
     }
 
-    .title-accent {
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, var(--accent-color), #ff4757);
-        margin: 0 auto 2rem;
-        border-radius: 2px;
-        position: relative;
-        z-index: 2;
-    }
-
     .partner-container {
         margin-bottom: 30px;
     }
-
 
     .partners-section {
         background: var(--primary-white);
         padding: 80px 0;
     }
-
 
     .partners-grid {
         gap: 2rem;
@@ -120,16 +123,22 @@
         .partners-section {
             padding: 60px 0;
         }
+
+        .partners-title::after { /* Responsive underline */
+            bottom: -6px; /* Closer on mobile */
+            height: 2px; /* Thinner */
+            width: 60px; /* Scales down on mobile */
+        }
     }
 </style>
 
 <!-- Hero Section -->
 <section class="partners-hero">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="partners-title">Our Trusted Partners</h1>
-                <div class="title-accent"></div>
+        <div class="row justify-content-center"> <!-- Centers row content -->
+            <div class="col-12 text-center"> <!-- Centers col content -->
+                <h1 class="partners-title">Our Trusted Partners</h1> <!-- DEAD-CENTERED ON PAGE -->
+                <!-- Underline auto-applies via ::after -->
                 <p class="partners-subtitle">
                     We collaborate with industry-leading organizations to deliver exceptional solutions and drive
                     innovation together.
@@ -139,7 +148,7 @@
     </div>
 </section>
 
-<!-- Partners Section -->
+<!-- Partners Section – YOUR EXACT BACKEND FETCHING LOGIC (COMPLETE) -->
 <section class="partners-section">
     <div class="container">
         <div class="row partners-grid justify-content-center">

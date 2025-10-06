@@ -32,19 +32,33 @@
     }
 
     .header-title {
-        color: var(--primary-black);
+        color: #0077BE; /* FIXED: Primary blue (#0077BE) */
         font-weight: 700;
         letter-spacing: -0.02em;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Centers text */
+        margin: 0 auto 20px; /* Auto margins for perfect centering + space for underline */
+        position: relative; /* For absolute positioning of underline */
+        display: block; /* Block for full centering */
+        width: 100%; /* Full width to span container */
+        z-index: 2;
     }
 
-    .header-accent-line {
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, var(--accent-color), #ff4757);
-        border-radius: 2px;
-        box-shadow: 0 2px 8px rgba(255, 20, 43, 0.3);
+    /* FIXED: Underline via pseudo-element (replaces accent line div) */
+    .header-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px; /* Positions below title */
+        left: 50%;
+        transform: translateX(-50%); /* Centers it */
+        width: 80px; /* Fixed width for consistency */
+        height: 3px; /* Matches footer height */
+        background: linear-gradient(90deg, transparent, #0077BE, transparent); /* Blue gradient */
+        border-radius: 2px; /* Rounded */
+        box-shadow: 0 2px 4px rgba(0, 119, 190, 0.2); /* Subtle shadow */
     }
+
+    /* REMOVED: .header-accent-line CSS (no longer needed) */
 
     .header-subtitle {
         color: var(--medium-gray);
@@ -85,7 +99,6 @@
         font-size: 0.95rem;
     }
 
-
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .hero-header {
@@ -96,6 +109,12 @@
         .header-title {
             font-size: 2.5rem;
         }
+
+        .header-title::after { /* Responsive underline */
+            bottom: -6px; /* Closer on mobile */
+            height: 2px; /* Thinner */
+            width: 60px; /* Scales down */
+        }
     }
 </style>
 {% endblock %}
@@ -105,15 +124,14 @@
 {% block values_dynamic %} active {% endblock %}
 {% block content %}
 
-
 <!-- Header -->
 <section class="hero-header py-5 pb-3 m-0">
     <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
+        <div class="row justify-content-center"> <!-- FIXED: Centers row content -->
+            <div class="col-lg-8 text-center"> <!-- FIXED: Centers col content -->
                 <div class="header-content">
-                    <h1 class="display-4 fw-bold mb-3 header-title">Our Core Values</h1>
-                    <div class="header-accent-line mx-auto"></div>
+                    <h1 class="display-4 fw-bold mb-3 header-title">Our Core Values</h1> <!-- FIXED: Blue color, underline, dead-centered -->
+                    <!-- Underline auto-applies via ::after – no extra div -->
                     <p class="lead mt-4 header-subtitle">The principles that guide everything we do</p>
                 </div>
             </div>
@@ -124,12 +142,11 @@
 {% if values %}
 <section class="values-section">
     <div class="container">
-
         <div class="row g-4">
             {% for company in values %}
             <div class="col-lg-4 col-md-6">
                 <div class="value-card corporate-card">
-                    <h4 class="value-title">{{ company.title }}</h4>
+                    <h4 class="value-title" style="color: #0077BE;">{{ company.title }}</h4>
                     <p class="value-description">{{ company.content }}</p>
                 </div>
             </div>
@@ -138,7 +155,5 @@
     </div>
 </section>
 {% endif %}
-
-
 
 {% endblock %}
