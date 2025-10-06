@@ -72,7 +72,9 @@
     margin-bottom: 20px;
     position: relative;
   }
-
+ .values-section .section-title {
+    color: #0077BE !important;
+  }
   .value-title::after {
     content: '';
     position: absolute;
@@ -123,7 +125,7 @@
             {{ forloop.counter }}⃣
           </div>
           <h4 class="value-title" style="color: #0077BE;">{{ company.title }}</h4>
-          <p class="value-description" style="color: #0077BE;">{{ company.content }}</p>
+          <p class="value-description" >{{ company.content }}</p>
         </div>
       </div>
       {% endfor %}

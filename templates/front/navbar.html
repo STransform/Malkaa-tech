@@ -1,6 +1,7 @@
 {% load i18n %}
-{% load static %}<!-- CSS for Modern Navbar: Glassmorphism, Gradient Flows, Professional Interactions -->
-{% block css %}<style>
+{% load static %}
+{% block css %}
+<style>
     :root {
         --primary-dark: #0a192f;
         --primary-mid: #1e3a8a;
@@ -15,7 +16,6 @@
         --bg-subtle: rgba(255, 255, 255, 0.05);
     }
 
-    /* Base Header: Glassy initial, gradient on scroll */
     #header {
         position: fixed;
         top: 0;
@@ -34,7 +34,7 @@
         height: 70px;
     }
 
-    /* Shimmer overlay for dynamic feel */
+   
     #header::before {
         content: '';
         position: absolute;
@@ -58,7 +58,7 @@
         100% { opacity: 1; }
     }
 
-    /* Logo: Elegant scale, gradient text fallback */
+   
     .header-logo {
         transition: transform 0.3s ease;
     }
@@ -77,7 +77,7 @@
         transform: scale(1.02);
     }
 
-    /* Main Nav: Fluid centered, modern typography */
+   
     .header-nav-main {
         position: absolute;
         left: 50%;
@@ -126,7 +126,7 @@
         width: 100%;
     }
 
-    /* Dropdowns: Glassy, centered, smooth reveal */
+   
     .dropdown {
         position: relative;
     }
@@ -184,7 +184,7 @@
         transform: translateX(0);
     }
 
-    /* Mega Menu: Full-width, columnar, immersive */
+   
     .mega-menu.dropdown-menu {
         position: fixed;
         left: 50%;
@@ -251,7 +251,7 @@
         opacity: 1;
     }
 
-    /* Simple Dropdown: Compact variant */
+  
     .simple-dropdown.dropdown-menu {
         width: auto;
         max-width: 320px;
@@ -266,7 +266,7 @@
         border-bottom: none;
     }
 
-    /* Utilities: Subtle icons, glassy dropdowns */
+    
     .header-utilities {
         display: flex;
         align-items: center;
@@ -303,7 +303,7 @@
         transform: scale(1.1);
     }
 
-    /* Search Dropdown: Modern input, positioned right */
+    
     .search-dropdown {
         position: absolute;
         top: 100%;
@@ -354,7 +354,7 @@
         transform: scale(1.05);
     }
 
-    /* Language Selector: Sleek dropdown */
+ 
     .lang-selector {
         position: relative;
     }
@@ -378,7 +378,7 @@
         color: var(--white);
     }
 
-    /* Admin Button: Gradient pill, elevated */
+   
     .admin-btn {
         background: linear-gradient(135deg, var(--red-accent), #cc0000);
         color: var(--white);
@@ -413,7 +413,7 @@
         box-shadow: 0 6px 20px rgba(227, 19, 55, 0.3);
     }
 
-    /* Mobile: Overlay panel, smooth slide */
+ 
     .mobile-toggle {
         display: none;
         color: var(--light-gray);
@@ -424,10 +424,16 @@
         padding: 0.5rem;
         border-radius: 50%;
         transition: all 0.3s ease;
+        position: relative;
+        z-index: 1031; /* Ensure it's above other elements */
     }
     .mobile-toggle:hover {
         color: var(--accent-blue);
         background: var(--bg-subtle);
+    }
+    .mobile-toggle:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--accent-blue);
     }
     @media (max-width: 991px) {
         .mobile-toggle {
@@ -445,9 +451,13 @@
             height: calc(100vh - 80px);
             overflow-y: auto;
             padding: 2rem 0;
+            opacity: 0; /* Additional safeguard for initial state */
+            visibility: hidden; /* Prevent flash on load/resize */
         }
         .header-nav-main.show {
             transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
         }
         .header-nav-main ul {
             flex-direction: column;
@@ -493,7 +503,7 @@
         }
     }
 
-    /* Body padding adjustment */
+ 
     body {
         padding-top: 80px;
     }
@@ -511,10 +521,10 @@
         }
     }
 </style>
-{% endblock %}<!-- Redesigned Modern Navigation Bar with Glassy Effects and Gradient Flows -->
+{% endblock %}
 <header id="header">
     <div class="container-fluid px-4 d-flex align-items-center justify-content-between h-100">
-        <!-- Logo (Left) - Enhanced M Shape Design -->
+       
         <div class="header-logo">
             <a href="{% url 'index' %}">
                 <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="logo-m">
@@ -533,13 +543,13 @@
                             </feMerge>
                         </filter>
                     </defs>
-                    <!-- Enhanced Filled M Shape - Symmetrical with sharp peaks and clean base -->
+                  
                     <path d="M10 100 L30 20 L60 70 L90 20 L110 100 L10 100 Z" 
                           fill="url(#mGradient)" 
                           filter="url(#mGlow)" 
                           stroke="none" 
                           stroke-width="0" />
-                    <!-- Inner accent lines for depth and modern look - Emphasizing the M structure -->
+                   
                     <path d="M30 20 L60 70 M60 70 L90 20" 
                           stroke="url(#mGradient)" 
                           stroke-width="2" 
@@ -550,7 +560,7 @@
             </a>
         </div>
 
-    <!-- Main Navigation (Centered) -->
+
     <nav class="header-nav-main">
         <ul>
             {% if pages %}
@@ -603,7 +613,7 @@
             {% endif %}
 
             {% else %}
-            <!-- Fallback Static Nav -->
+           
             <li><a class="nav-link {% block home %}{% endblock %} {% if index %}active{% endif %}" href="{% url 'index' %}">{% trans "Home" %}</a></li>
             <li class="dropdown">
                 <a class="nav-link {% block about %}{% endblock %} {% if about_page %}active{% endif %}" href="#">{% trans "About Us" %}</a>
@@ -640,9 +650,9 @@
         </ul>
     </nav>
 
-    <!-- Utilities (Right) -->
+
     <div class="header-utilities">
-        <!-- Search -->
+       
         <div class="search-wrapper position-relative">
             <i class="fas fa-search search-toggle" onclick="toggleSearch()"></i>
             <div class="search-dropdown">
@@ -655,7 +665,7 @@
             </div>
         </div>
 
-        <!-- Language -->
+       
         <form id="id_lang_selector_form" class="lang-selector" action="{% url 'set_language' %}" method="post" style="display: inline;">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ redirect_to }}">
@@ -675,9 +685,9 @@
         <a class="admin-btn" href="{% url 'admin_dashboard' %}">Dashboard</a>
         {% endif %}
 
-        <!-- Mobile Toggle -->
-        <button class="mobile-toggle" onclick="toggleMobileMenu()">
-            <i class="fas fa-bars"></i>
+       
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+            <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
     </div>
 </div></header>
@@ -699,20 +709,44 @@ window.addEventListener('scroll', () => {
 // Mobile Menu Toggle
 function toggleMobileMenu() {
     const nav = document.querySelector('.header-nav-main');
+    const toggleBtn = document.querySelector('.mobile-toggle');
+    if (!nav || !toggleBtn) return; // Safeguard if elements not found
     nav.classList.toggle('show');
+    const isExpanded = nav.classList.contains('show');
+    toggleBtn.setAttribute('aria-expanded', isExpanded);
+    const icon = toggleBtn.querySelector('i');
+    if (icon) {
+        icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars'; // Switch to X on open
+    }
     // Close all dropdowns on toggle
     document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isExpanded ? 'hidden' : '';
 }
 
 // Search Toggle
 function toggleSearch() {
     const dropdown = document.querySelector('.search-dropdown');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
 }
 
 // Language Change
 function change_lang(s) {
     document.querySelector("#id_lang_selector_form").submit();
+}
+
+// Mobile dropdown click handler
+function handleMobileDropdownClick(e) {
+    e.preventDefault();
+    const dropdown = e.currentTarget.closest('.dropdown');
+    if (!dropdown) return;
+    // Close other dropdowns
+    document.querySelectorAll('.dropdown.active').forEach(d => {
+        if (d !== dropdown) d.classList.remove('active');
+    });
+    dropdown.classList.toggle('active');
 }
 
 // DOM Ready Enhancements
@@ -736,32 +770,56 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Mobile dropdown toggle on click
-    if (window.innerWidth < 992) {
-        document.querySelectorAll('.dropdown > .nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                link.closest('.dropdown').classList.toggle('active');
+    // Setup for mobile dropdowns
+    function setupMobileDropdowns() {
+        const links = document.querySelectorAll('.dropdown > .nav-link');
+        const isMobile = window.innerWidth < 992;
+        if (isMobile) {
+            // Add listeners for mobile
+            links.forEach(link => {
+                link.addEventListener('click', handleMobileDropdownClick);
             });
-        });
+        } else {
+            // Remove listeners for desktop
+            links.forEach(link => {
+                link.removeEventListener('click', handleMobileDropdownClick);
+            });
+        }
     }
+    setupMobileDropdowns(); // Initial setup
 
     // Close dropdowns and search on outside click
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown') && !e.target.closest('.header-utilities')) {
             document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
-            document.querySelectorAll('.search-dropdown').forEach(d => d.style.display = 'none');
+            const searchDropdown = document.querySelector('.search-dropdown');
+            if (searchDropdown) searchDropdown.style.display = 'none';
         }
     });
 
-    // Resize handler for mobile nav
+    // Enhanced Resize handler for better responsiveness
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        if (window.innerWidth >= 992) {
-            document.querySelector('.header-nav-main')?.classList.remove('show');
-            document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
-        }
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const nav = document.querySelector('.header-nav-main');
+            const toggleBtn = document.querySelector('.mobile-toggle');
+            const isMobile = window.innerWidth < 992;
+            if (!isMobile) {
+                // Force close menu and submenus when entering desktop view
+                if (nav) nav.classList.remove('show');
+                document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+                if (toggleBtn) {
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                    const icon = toggleBtn.querySelector('i');
+                    if (icon) icon.className = 'fas fa-bars';
+                }
+                document.body.style.overflow = ''; // Re-enable body scroll
+            }
+            // Re-setup mobile dropdown handlers
+            setupMobileDropdowns();
+        }, 150); // Debounce resize events
     });
 });
 </script>
 {% endblock %}
-

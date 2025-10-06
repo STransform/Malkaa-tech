@@ -1,9 +1,6 @@
 {% load static %}
-{% load i18n %}
-
-<!-- CSS -->
-{% block css %}
-<style>
+{% load i18n %}<!-- CSS -->
+{% block css %}<style>
   footer {
     margin: 0;
     padding: 0;
@@ -48,6 +45,7 @@
   .footer-logo {
     display: inline-block;
     margin-bottom: 1.5rem;
+    position: relative;
   }
 
   .footer-logo h6 {
@@ -60,6 +58,20 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -0.02em;
+    display: inline-block;
+    position: relative;
+  }
+
+  .footer-logo h6::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #0077BE, transparent);
+    border-radius: 2px;
   }
 
   .footer-description {
@@ -267,9 +279,8 @@
     padding: 1rem 1.5rem;
     text-align: center;
     box-shadow: 0 8px 25px rgba(0, 119, 190, 0.3);
-    position: absolute;
-    top: -20px;
-    right: -20px;
+    margin-top: 1.5rem;
+    display: block;
     min-width: 120px;
     z-index: 3;
   }
@@ -367,11 +378,10 @@
     }
 
     .visitor-badge {
-      position: static;
       margin-top: 1rem;
-      right: auto;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 150px;
     }
 
     .social-section {
@@ -407,9 +417,7 @@
     }
   }
 </style>
-{% endblock %}
-
-<footer>
+{% endblock %}<footer>
   <div class="container">
     <div class="footer-section py-5">
       <!-- Centered Logo, Description, and Newsletter -->
@@ -423,89 +431,86 @@
           cutting-edge solutions.
         </p>
 
-        <!-- Newsletter Signup -->
-        <div class="newsletter-wrapper">
-          <h5 class="footer-title mb-3">{% trans "Stay Updated" %}</h5>
-          <form class="newsletter-form">
-            <input type="email" class="newsletter-input" placeholder="{% trans 'Enter your email' %}" required>
-            <button type="submit" class="newsletter-btn">{% trans "Subscribe" %}</button>
-          </form>
+    <!-- Newsletter Signup -->
+    <div class="newsletter-wrapper">
+      <h5 class="footer-title mb-3">{% trans "Stay Updated" %}</h5>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="{% trans 'Enter your email' %}" required>
+        <button type="submit" class="newsletter-btn">{% trans "Subscribe" %}</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-grid">
+    <!-- Quick Links -->
+    <div class="footer-column">
+      <h5 class="footer-title">{% trans "QUICK LINKS" %}</h5>
+      <ul class="list-unstyled mb-0">
+        {% for link in quick_links %}
+        <li>
+          <a href="{{ link.url }}" class="quick-link">
+            <i class="fas fa-chevron-right"></i> {{ link.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Contacts -->
+    <div class="footer-column">
+      <h5 class="footer-title">{% trans "CONTACTS" %}</h5>
+      {% for contacts in contact %}
+      <a href="#" class="contact-item">
+        <i class="fas fa-map-marker-alt contact-icon"></i>
+        <div class="contact-text">
+          <strong>{% trans "Address" %}</strong>
+          {{ contacts.address }}
         </div>
+      </a>
+      <a href="tel:{{ contacts.phone }}" class="contact-item">
+        <i class="fas fa-phone contact-icon"></i>
+        <div class="contact-text">
+          <strong>{% trans "Phone" %}</strong>
+          {{ contacts.phone }}
+        </div>
+      </a>
+      <a href="mailto:{{ contacts.email }}" class="contact-item">
+        <i class="fas fa-envelope contact-icon"></i>
+        <div class="contact-text">
+          <strong>{% trans "Email" %}</strong>
+          {{ contacts.email }}
+        </div>
+      </a>
+      <a href="{{ contacts.website }}" target="_blank" class="contact-item">
+        <i class="fas fa-globe contact-icon"></i>
+        <div class="contact-text">
+          <strong>{% trans "Website" %}</strong>
+          {{ contacts.website }}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Social -->
+    <div class="footer-column">
+      <h5 class="footer-title">{% trans "SOCIAL" %}</h5>
+      <div class="social-section">
+        <a href="https://WWW.FACEBOOK.COM/PROFILE.PHP?ID=61556411611103" target="_blank" class="social-link" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.youtube.com/@OTECHENGINEERING" target="_blank" class="social-link" title="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://twitter.com/" target="_blank" class="social-link" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" class="social-link" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" class="social-link" title="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
       </div>
-
-      <div class="footer-grid">
-        <!-- Quick Links -->
-        <div class="footer-column">
-          <h5 class="footer-title">{% trans "QUICK LINKS" %}</h5>
-          <ul class="list-unstyled mb-0">
-            {% for link in quick_links %}
-            <li>
-              <a href="{{ link.url }}" class="quick-link">
-                <i class="fas fa-chevron-right"></i> {{ link.title }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <!-- Contacts -->
-        <div class="footer-column">
-          <h5 class="footer-title">{% trans "CONTACTS" %}</h5>
-          {% for contacts in contact %}
-          <a href="#" class="contact-item">
-            <i class="fas fa-map-marker-alt contact-icon"></i>
-            <div class="contact-text">
-              <strong>{% trans "Address" %}</strong>
-              {{ contacts.address }}
-            </div>
-          </a>
-          <a href="tel:{{ contacts.phone }}" class="contact-item">
-            <i class="fas fa-phone contact-icon"></i>
-            <div class="contact-text">
-              <strong>{% trans "Phone" %}</strong>
-              {{ contacts.phone }}
-            </div>
-          </a>
-          <a href="mailto:{{ contacts.email }}" class="contact-item">
-            <i class="fas fa-envelope contact-icon"></i>
-            <div class="contact-text">
-              <strong>{% trans "Email" %}</strong>
-              {{ contacts.email }}
-            </div>
-          </a>
-          <a href="{{ contacts.website }}" target="_blank" class="contact-item">
-            <i class="fas fa-globe contact-icon"></i>
-            <div class="contact-text">
-              <strong>{% trans "Website" %}</strong>
-              {{ contacts.website }}
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-
-        <!-- Social -->
-        <div class="footer-column">
-          <h5 class="footer-title">{% trans "SOCIAL" %}</h5>
-          <div class="social-section">
-            <a href="https://WWW.FACEBOOK.COM/PROFILE.PHP?ID=61556411611103" target="_blank" class="social-link" title="Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.youtube.com/@OTECHENGINEERING" target="_blank" class="social-link" title="YouTube">
-              <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://twitter.com/" target="_blank" class="social-link" title="Twitter">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://www.instagram.com/" target="_blank" class="social-link" title="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" class="social-link" title="LinkedIn">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
       <!-- Visitor Counter Badge -->
       <div class="visitor-badge">
         <strong data-to="{{ visitors|floatformat:1 }}" data-plugin-options="{'decimals': 1}"
@@ -516,6 +521,7 @@
       </div>
     </div>
   </div>
+</div>  </div>
 
   <!-- Footer Bottom -->
   <div class="footer-bottom">
@@ -523,14 +529,14 @@
       <div class="row align-items-center justify-content-between">
         <div class="col-md-6">
           <p class="mb-0">
-            &copy; {% now "Y" %} {% trans "Malkaa tech & Technology Solutions" %}. {% trans "All rights reserved." %}
+            &copy; {% now "Y" %} {% trans "Malkaa tech " %}. {% trans "All rights reserved." %}
           </p>
         </div>
         <div class="col-md-6 text-md-end mt-3 mt-md-0">
           <p class="mb-0">
             {% trans "Developed by" %}
             <a href="https://www.otech.et/" target="_blank" class="developed-by">
-              {% trans "Malkaa tech & Technology Solutions" %}
+              {% trans "Malkaa tech" %}
             </a>
           </p>
         </div>
@@ -547,3 +553,4 @@ document.querySelector('.newsletter-form')?.addEventListener('submit', function(
   alert('Subscribed! Thank you for joining our newsletter.');
 });
 </script>
+

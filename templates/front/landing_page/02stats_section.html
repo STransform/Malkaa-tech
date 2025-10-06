@@ -145,10 +145,10 @@
     line-height: 1.5;
   }
 
-  .about-cta {
+  /* .about-cta {
     text-align: center;
     animation: fadeInUp 1.2s ease-out 0.9s both;
-  }
+  } */
 
   .about-btn {
     background: linear-gradient(135deg, #0077BE, #015C92);
@@ -233,15 +233,14 @@
     <div class="about-hero">
       <h2 class="about-title">{% trans "About Malkaa tech" %}</h2>
       <p class="about-subtitle">
-        {% trans "Pioneering Innovation in Technology Solutions" %}
+        {% trans "Transforming Ideas into Intelligent Solutions that Shape the Future." %}
       </p>
     </div>
     <div class="about-description">
       {% blocktrans trimmed %}
-        At Malkaa tech, we are more than just a technology company—we are your strategic partner in digital transformation. 
-        With over a decade of expertise, we deliver cutting-edge solutions that empower businesses and governments to thrive in 
-        an ever-evolving landscape. Our team of seasoned professionals combines technical prowess with creative vision to craft 
-        bespoke software, robust infrastructure, and innovative consulting services tailored to your unique challenges.
+        At Malkaa Tech, we are more than a software company — we are your trusted partner in digital transformation.
+       With over five years of experience, we specialize in developing powerful web and mobile applications, 
+       as well as comprehensive ERP systems designed for governments and institutions. Our team of skilled professionals blends technical expertise with innovative thinking to deliver reliable, scalable, and user-focused solutions that drive efficiency and growth
       {% endblocktrans %}
     </div>
     <div class="about-features">
@@ -250,9 +249,9 @@
           <i class="fas fa-code"></i>
         </div>
         <div class="feature-content">
-          <h4 class="feature-title">{% trans "Custom Software Development" %}</h4>
+          <h4 class="feature-title">{% trans "Software Development" %}</h4>
           <p class="feature-description">
-            {% trans "Tailored applications that scale with your business needs and drive operational efficiency." %}
+            {% trans "We develop applications that scale with your business needs and drive operational efficiency." %}
           </p>
         </div>
       </div>
@@ -261,9 +260,9 @@
           <i class="fas fa-server"></i>
         </div>
         <div class="feature-content">
-          <h4 class="feature-title">{% trans "Infrastructure Solutions" %}</h4>
+          <h4 class="feature-title">{% trans "ERP Solutions" %}</h4>
           <p class="feature-description">
-            {% trans "Secure, scalable cloud and on-premise infrastructure designed for reliability and performance." %}
+            {% trans "Custom software applications built with precision, innovation, and scalability to meet your organization's unique needs." %}
           </p>
         </div>
       </div>
@@ -272,28 +271,18 @@
           <i class="fas fa-lightbulb"></i>
         </div>
         <div class="feature-content">
-          <h4 class="feature-title">{% trans "Strategic Consulting" %}</h4>
+          <h4 class="feature-title">{% trans "Consultance services" %}</h4>
           <p class="feature-description">
-            {% trans "Expert guidance to navigate digital transformation and unlock new growth opportunities." %}
+            {% trans "Professional consulting to guide organizations through digital transformation, optimize performance, and drive sustainable growth." %}
           </p>
         </div>
       </div>
-      <div class="feature-item">
-        <div class="feature-icon">
-          <i class="fas fa-headset"></i>
-        </div>
-        <div class="feature-content">
-          <h4 class="feature-title">{% trans "24/7 Support Excellence" %}</h4>
-          <p class="feature-description">
-            {% trans "Round-the-clock technical support ensuring your systems run smoothly at all times." %}
-          </p>
-        </div>
-      </div>
+    
     </div>
-    <div class="about-cta">
+    <!-- <div class="about-cta">
       <a href="{% url 'about' %}" class="about-btn">
         {% trans "Discover Our Story" %} <i class="fas fa-arrow-right"></i>
       </a>
-    </div>
+    </div> -->
   </div>
 </section>

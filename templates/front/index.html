@@ -1,11 +1,11 @@
 {% extends 'front/base.html' %} {% load i18n %} {% load static %} {% load
 custom_filters %}
 
-<!--  Home  -->
+
 {% block home %} active {% endblock %}
 
 <!-- Content  -->
-{% block content %}t
+{% block content %}
 
 <!-- Hero Carousel  -->
 {% include 'front/landing_page/01hero_carousel.html' %}
@@ -49,8 +49,7 @@ custom_filters %}
 <!-- FAQ section -->
 {% include 'front/landing_page/12faq.html' %}
 
-<!-- Call to action section -->
-<!-- {% include 'front/landing_page/13cta.html' %} -->
+
 
 {% endblock %}
 
