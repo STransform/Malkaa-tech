@@ -171,10 +171,10 @@ WSGI_APPLICATION = 'otech_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db1',
+        'NAME': 'malkaa_db',
         'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'PASSWORD': 'Simon@1234',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
