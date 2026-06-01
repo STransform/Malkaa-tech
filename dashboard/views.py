@@ -1,9 +1,16 @@
 from django.views import View
 from django.apps import apps
+import json
+
 from django.conf import settings
+from django.db import ProgrammingError
+from django.db.models import F
 from django.db.models.base import ModelBase
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.models import Group
@@ -11,7 +18,7 @@ from django.contrib.auth.models import Group
 from blogs.models import *
 from core.forms import get_form
 from core.models import ContactUs
-from dashboard.models import Event 
+from dashboard.models import Event, OdooThemeVisitor 
 from news.models import NewsArticle
 from task_manager.models import Task 
 from documents.models import Document
@@ -64,13 +71,23 @@ class PermissionRequiredMixin(AccessMixin):
 # render staff dashboard page
 class Dashboard(LoginRequiredMixin, View ):
     def get(self, request):
-        tasks = Task.objects.all()
         task_data = {
-            'all':tasks.count(),
-            'done':tasks.filter(status = 'Completed').count(),
-            'progress':tasks.filter(status ='Inprogress').count(),
-            'pending':tasks.filter(status='Pending').count()
+            'all': 0,
+            'done': 0,
+            'progress': 0,
+            'pending': 0,
         }
+        try:
+            tasks = Task.objects.all()
+            task_data = {
+                'all': tasks.count(),
+                'done': tasks.filter(status='Completed').count(),
+                'progress': tasks.filter(status='Inprogress').count(),
+                'pending': tasks.filter(status='Pending').count()
+            }
+        except ProgrammingError:
+            # Allow the dashboard to load before optional task manager tables are migrated.
+            pass
         return render(request, 'staff/admin_home.html', 
                       { 'index':True,
                         'tasks':task_data, 
@@ -83,9 +100,80 @@ class Dashboard(LoginRequiredMixin, View ):
                         'news':NewsArticle.objects.count(),
                         'blogs':Blog.objects.count(),
                         'contactus': ContactUs.objects.all()[:5],
-                        'blocked_supplier':Supplier.objects.all()[:5]
+                        'blocked_supplier':Supplier.objects.all()[:5],
+                        'odoo_theme_visitors': OdooThemeVisitor.objects.all()[:10],
+                        'odoo_theme_visitor_count': OdooThemeVisitor.objects.count(),
                        }
                     )
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class OdooThemeVisitApi(View):
+    allowed_fields = {
+        "theme_name",
+        "theme_version",
+        "odoo_version",
+        "database_uuid",
+        "database_name",
+        "company_name",
+        "user_name",
+        "user_login",
+        "email",
+        "phone",
+        "city",
+        "state",
+        "country",
+        "address",
+        "website",
+    }
+
+    def post(self, request):
+        expected_token = getattr(settings, "SIGMA_THEME_TRACKING_TOKEN", "")
+        provided_token = request.headers.get("X-Sigma-Tracking-Token", "")
+        if expected_token and provided_token != expected_token:
+            return JsonResponse({"ok": False, "error": "invalid token"}, status=403)
+
+        try:
+            payload = json.loads(request.body.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            return JsonResponse({"ok": False, "error": "invalid json"}, status=400)
+
+        values = {
+            key: str(payload.get(key, "") or "")[:255]
+            for key in self.allowed_fields
+            if key != "address"
+        }
+        values["address"] = str(payload.get("address", "") or "")[:2000]
+        values["remote_addr"] = self.get_remote_addr(request)
+        values["user_agent"] = request.headers.get("User-Agent", "")[:2000]
+
+        database_uuid = values.get("database_uuid")
+        user_login = values.get("user_login")
+        theme_name = values.get("theme_name") or "sigma_backend_theme"
+        if not database_uuid or not user_login:
+            return JsonResponse(
+                {"ok": False, "error": "database_uuid and user_login are required"},
+                status=400,
+            )
+
+        visitor, created = OdooThemeVisitor.objects.update_or_create(
+            database_uuid=database_uuid,
+            user_login=user_login,
+            theme_name=theme_name,
+            defaults=values,
+        )
+        if not created:
+            OdooThemeVisitor.objects.filter(pk=visitor.pk).update(
+                visit_count=F("visit_count") + 1,
+            )
+
+        return JsonResponse({"ok": True, "created": created})
+
+    def get_remote_addr(self, request):
+        forwarded_for = request.headers.get("X-Forwarded-For", "")
+        if forwarded_for:
+            return forwarded_for.split(",")[0].strip()
+        return request.META.get("REMOTE_ADDR", "")
     
 # creates an object for requested model
 class CreateView(LoginRequiredMixin,PermissionRequiredMixin, View):

@@ -25,7 +25,7 @@ class MyUserManager(BaseUserManager):
         myuser = self.create_user(email, password,  first_name = first_name,last_name = last_name)
         myuser.is_active = True
         myuser.is_superuser = True
-        myuser.role="Admin"
+        myuser.role = "admin"
         myuser.status = "Active"
         myuser.save(using = self.db)
         return myuser

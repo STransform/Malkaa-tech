@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
     
     path('', Dashboard.as_view(), name='admin_dashboard'),
+    path('api/odoo-theme-visit/', OdooThemeVisitApi.as_view(), name='odoo_theme_visit_api'),
     path('translator/', include('rosetta.urls'), name="translator"),
     path('list/<str:model_name>/', ListView.as_view(), name="list_view"),
     path('create/<str:model_name>/', CreateView.as_view(), name="create_view"),
@@ -13,4 +14,3 @@ urlpatterns = [
     path('supplier_detail/<str:tin>/', SupplierDetail.as_view(), name='supplier_detail'),
  
 ]
-

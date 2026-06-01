@@ -196,4 +196,51 @@ class Bid(models.Model):
     excluded_fields = ['created_by']
     list_fields = get_list_fields()
 
+
+class OdooThemeVisitor(models.Model):
+    theme_name = models.CharField(max_length=100, default="sigma_backend_theme")
+    theme_version = models.CharField(max_length=50, blank=True, default="")
+    odoo_version = models.CharField(max_length=50, blank=True, default="")
+    database_uuid = models.CharField(max_length=100, blank=True, default="")
+    database_name = models.CharField(max_length=150, blank=True, default="")
+    company_name = models.CharField(max_length=255, blank=True, default="")
+    user_name = models.CharField(max_length=255, blank=True, default="")
+    user_login = models.CharField(max_length=255, blank=True, default="")
+    email = models.EmailField(blank=True, default="")
+    phone = models.CharField(max_length=100, blank=True, default="")
+    city = models.CharField(max_length=150, blank=True, default="")
+    state = models.CharField(max_length=150, blank=True, default="")
+    country = models.CharField(max_length=150, blank=True, default="")
+    address = models.TextField(blank=True, default="")
+    website = models.URLField(blank=True, default="")
+    remote_addr = models.CharField(max_length=100, blank=True, default="")
+    user_agent = models.TextField(blank=True, default="")
+    first_seen = models.DateTimeField(auto_now_add=True)
+    last_seen = models.DateTimeField(auto_now=True)
+    visit_count = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        ordering = ("-last_seen",)
+        unique_together = ("database_uuid", "user_login", "theme_name")
+
+    def __str__(self):
+        return f"{self.user_name or self.user_login} - {self.company_name}"
+
+    def location(self):
+        return ", ".join(filter(None, [self.city, self.state, self.country]))
+
+    def get_list_fields():
+        return [
+            "theme_name",
+            "company_name",
+            "user_name",
+            "user_login",
+            "email",
+            "location",
+            "visit_count",
+            "last_seen",
+        ]
+
+    list_fields = get_list_fields()
+
     

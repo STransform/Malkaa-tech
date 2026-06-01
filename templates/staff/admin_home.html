@@ -227,10 +227,65 @@
                             </a>
                         </div>
                     </div>
+                    <div class="col-xxl-3 col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div>
+                            <a href="{% url 'list_view' 'OdooThemeVisitor' %}" class="category-link primary text-center">
+                                <i class="bx bx-grid-alt" style="font-size: 3rem;"></i>
+                                <p class="fs-14 mb-1 text-default fw-semibold">Odoo Theme Visitors</p>
+                                <span class="fs-11 text-muted">{{ odoo_theme_visitor_count }}</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Start::odoo theme visitors -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card custom-card">
+                <div class="card-header">
+                    <h5>Latest Odoo Theme Visitors</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
+                                    <th>Theme</th>
+                                    <th>Visits</th>
+                                    <th>Last Seen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for visitor in odoo_theme_visitors %}
+                                <tr>
+                                    <td>{{ visitor.user_name|default:visitor.user_login|truncatechars:24 }}</td>
+                                    <td>{{ visitor.company_name|truncatechars:28 }}</td>
+                                    <td>{{ visitor.email|truncatechars:28 }}</td>
+                                    <td>{{ visitor.location|truncatechars:32 }}</td>
+                                    <td>{{ visitor.theme_name }} {{ visitor.theme_version }}</td>
+                                    <td>{{ visitor.visit_count }}</td>
+                                    <td>{{ visitor.last_seen }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">No Odoo theme visitors recorded yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End::odoo theme visitors -->
 
 
     <!-- Start::contact us messages -->

@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from django.contrib.admin.options import ModelAdmin as DEFAULT_MODEL_ADMIN
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,18 +12,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-vl1osx-&@rl##2ogt%^kv$dri#h)tppm8)&5qg1f+i233$g$2$'
+SIGMA_THEME_TRACKING_TOKEN = config('SIGMA_THEME_TRACKING_TOKEN', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost.com', 
+    'https://melkaa.com',
+    'https://www.melkaa.com',
     'https://www.otech.et',  
+    'https://otech.et',
 ]
 
 # lists of allowed hosts
-ALLOWED_HOSTS = [ '172.10.11.211', '192.168.0.102','172.10.10.83', 'otech.et', 'www.otech.et','127.0.0.1','localhost']
-CSRF_COOKIE_SECURE = True
+ALLOWED_HOSTS = [ '172.10.11.211', '192.168.0.102','172.10.10.83', 'melkaa.com', 'www.melkaa.com', 'otech.et', 'www.otech.et','127.0.0.1','localhost']
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
 
 # Application definition
 
@@ -133,7 +140,7 @@ MIDDLEWARE = [
     
 ]
 
-ROOT_URLCONF = 'otech_app.urls'
+ROOT_URLCONF = 'malkaa.urls'
 
 # template directory
 TEMPLATES = [
@@ -166,18 +173,28 @@ THUMBNAIL_PROCESSORS = (
 )
 
 # specifies the full path to the Django's runserver command
-WSGI_APPLICATION = 'otech_app.wsgi.application'
+WSGI_APPLICATION = 'malkaa.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'malkaa_db',
-        'USER': 'root',
-        'PASSWORD': 'Simon@1234',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
+
+if DB_ENGINE == 'django.db.backends.sqlite3':
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': config('DB_NAME', default=BASE_DIR / 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': config('DB_NAME', default='malkaa_db'),
+            'USER': config('DB_USER', default=''),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='127.0.0.1'),
+            'PORT': config('DB_PORT', default='3306'),
+        }
+    }
 
 # password validator
 AUTH_PASSWORD_VALIDATORS = [
@@ -269,6 +286,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 
 AUTH_USER_MODEL = 'accounts.UserProfile'
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.FlexibleModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

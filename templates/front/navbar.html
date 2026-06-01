@@ -70,6 +70,16 @@
         padding: 0 1.5rem;
         position: relative;
     }
+    .header-logo img {
+        height: 50px;
+        width: auto;
+        transition: height var(--transition-smooth);
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    #header.scrolled .header-logo img {
+        height: 42px;
+    }
 
     .header-logo {
         flex-shrink: 0;
@@ -692,6 +702,13 @@
             top: 65px;
             height: calc(100vh - 65px);
         }
+        .header-logo img {
+            height: 40px;
+        }
+
+        #header.scrolled .header-logo img {
+            height: 36px;
+        }
         .nav-link {
             padding: 1rem 1.5rem;
             font-size: 1rem;
@@ -751,37 +768,10 @@
 </style>
 {% endblock %}<header id="header">
     <div class="header-container">
-        <div class="header-logo">
+       <div class="header-logo">
             <a href="{% url 'index' %}">
-                <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="logo-m">
-                    <defs>
-                        <linearGradient id="mGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#0077BE;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#00A8E8;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
-                        </linearGradient>
-                        <filter id="mGlow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="glow" />
-                            <feMerge>
-                                <feMergeNode in="glow" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <path d="M10 100 L30 20 L60 70 L90 20 L110 100 L10 100 Z" 
-                          fill="url(#mGradient)" 
-                          filter="url(#mGlow)" 
-                          stroke="none" 
-                          stroke-width="0" />
-                    <path d="M30 20 L60 70 M60 70 L90 20" 
-                          stroke="url(#mGradient)" 
-                          stroke-width="2" 
-                          stroke-linecap="round" 
-                          opacity="0.85" 
-                          filter="url(#mGlow)" />
-                </svg>
-                <span class="logo-text">Malkaa tech</span>
+                <img src="{% static 'front/imgs/logo/logo.png' %}" alt="Malkaa Tech logo">
+                <span class="logo-text">Melka tech</span>
             </a>
         </div>
 
@@ -809,8 +799,8 @@
                 <ul class="dropdown-menu simple-dropdown">
                     <div class="mega-column">
                         <a class="dropdown-item" href="{% url 'technology' %}">{% trans "Software Development" %}</a>
-                        <a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise Solutions" %}</a>
-                        <a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>
+                        <!--<a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise Solutions" %}</a>-->
+                        <!--<a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>-->
                     </div>
                 </ul>
             </li>
@@ -853,8 +843,8 @@
                 <ul class="dropdown-menu simple-dropdown">
                     <div class="mega-column">
                         <a class="dropdown-item" href="{% url 'technology' %}">{% trans "Software Development" %}</a>
-                        <a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise Solutions" %}</a>
-                        <a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>
+                        <!--<a class="dropdown-item" href="{% url 'infrastructure' %}">{% trans "Enterprise Solutions" %}</a>-->
+                        <!--<a class="dropdown-item" href="{% url 'innovation' %}">{% trans "Web & Digital Services" %}</a>-->
                     </div>
                 </ul>
             </li>

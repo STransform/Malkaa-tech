@@ -34,38 +34,55 @@ class Signup(View):
     
 # log in page
 class Login(View):
+    @staticmethod
+    def _get_user_status(user):
+        return getattr(user, "status", "Active")
+
+    @staticmethod
+    def _get_user_display_name(user):
+        full_name = f"{getattr(user, 'first_name', '')} {getattr(user, 'last_name', '')}".strip()
+        return full_name or getattr(user, "username", "") or getattr(user, "email", "User")
+
     def get (self, request):
         user = self.request.user
         if  user.is_authenticated:
             messages.info(self.request, "You are already logged in!")
+            if user.is_staff:
+                return redirect("admin_dashboard")
             return redirect("/")
         return render (request, 'login.html', )
     
     def post (self, request):
-        user = self.request.user
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        form = AuthenticationForm(request)
-        user = authenticate(request, username = email, password = password)
+        identifier = (request.POST.get('email') or "").strip()
+        password = request.POST.get('password') or ""
+        form = AuthenticationForm(request=request, data=request.POST)
+        user = authenticate(request, email=identifier, username=identifier, password=password)
         
         # account validation
         if user is not None:
-            if user.status == 'Active':
+            if not user.is_active:
+                messages.warning(request, "Your account is inactive. Please contact an administrator.")
+                return render(request, 'login.html', {'form': form})
+
+            if self._get_user_status(user) == 'Active' or user.is_superuser:
                 login(request, user)        
-                messages.success(request, f'Welcome back {user.first_name} {user.last_name}')
+                messages.success(request, f'Welcome back {self._get_user_display_name(user)}')
                 if user.is_staff:
                     return redirect("admin_dashboard")
-            elif user.status == 'Account Activation':
-                messages.warning(request, f"Your account is being verified by our staff. Account status on {user.status}")    
+                next_url = request.GET.get("next") or request.POST.get("next")
+                if next_url:
+                    return redirect(next_url)
+                return redirect("/")
+            elif self._get_user_status(user) == 'Account Activation':
+                messages.warning(request, f"Your account is being verified by our staff. Account status on {self._get_user_status(user)}")    
             else:
-                messages.warning(request, f"You can't login because your account status is on {user.status}.")    
+                messages.warning(request, f"You can't login because your account status is on {self._get_user_status(user)}.")    
                 
             return redirect("/")
         
 
         else:
-            print(form.errors)
-            messages.warning(request, 'Email or password is wrong!',)
+            messages.warning(request, 'Email/username or password is wrong!',)
             return render(request, 'login.html', {'form':form})
  
     
@@ -208,4 +225,3 @@ class DeleteUser(LoginRequiredMixin,DjangoPermissionRequiredMixin, View):
             messages.warning(self.request, f"An Exception occurred while trying to delete this user. {e}")
             return redirect ('users_list')
          
-

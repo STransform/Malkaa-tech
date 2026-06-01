@@ -310,8 +310,8 @@
             {% else %}
             <img src="{% static 'front/imgs/logo/logo-otech.png' %}" alt="Logo" class="brand-logo">
             {% endif %}
-            <h1 class="brand-title">OTech Engineering and Technology Solution P.L.C.</h1>
-            <p class="brand-subtitle">LET'S OWN THE FUTURE.</p>
+            <h1 class="brand-title">MelkaTech</h1>
+            <p class="brand-subtitle">Transforming the Future Through Technology.</p>
         </div>
     </div>
 
@@ -349,10 +349,10 @@
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label class="form-label">{% trans "Email Address" %}</label>
+                    <label class="form-label">{% trans "Email Address or Username" %}</label>
                     <div class="input-wrapper">
                         <i class="fa fa-envelope input-icon"></i>
-                        <input type="email" name="email" value="" class="form-input" required>
+                        <input type="text" name="email" value="" class="form-input" required>
                     </div>
                 </div>
 
